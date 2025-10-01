@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>i4Market — Stand Out</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root{
+      --bg:#0b0b0e;
+      --card:#0f1116cc;
+      --glass:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.12);
+      --txt:#e7e7ea;
+      --muted:#a5a7b1;
+      --gold-1:#ffcf66; /* light */
+      --gold-2:#caa342; /* dark */
+      --brand:#6aa1ff;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family:Poppins,Arial,system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);}
+    a{color:inherit;text-decoration:none}
+    /* ---------- BACKGROUND LAYERS ---------- */
+    .hero{
+      position:relative;min-height:100svh;display:grid;place-items:center;overflow:hidden;isolation:isolate;
+    }
+    .hero:before{ /* background image */
+      content:"";position:absolute;inset:0;z-index:-3;
+      background:url('main-page.png') center/cover no-repeat fixed; /* <- your provided image */
+      filter:saturate(1.05) contrast(1.02) brightness(.9);
+      transform:scale(1.04);
+    }
+    .hero:after{ /* vignette */
+      content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;
+      background:radial-gradient(1200px 600px at 70% -10%, #aaf 0%, transparent 40%),
+                 radial-gradient(900px 900px at 10% 120%, #f0b 0%, transparent 45%);
+      mix-blend-mode:screen;opacity:.18;filter:blur(2px);
+      animation:glow 16s linear infinite;
+    }
+    @keyframes glow{to{transform:rotate(1turn)}}
+
+    /* animated grain */
+    .grain{position:absolute;inset:-100px;z-index:-1;opacity:.06;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.5"/></svg>');animation:grain 12s steps(10) infinite}
+    @keyframes grain{0%{transform:translate(0,0)}10%{transform:translate(-5%,-10%)}20%{transform:translate(-15%,-20%)}30%{transform:translate(-5%,-25%)}40%{transform:translate(-15%,-10%)}50%{transform:translate(-5%,-15%)}60%{transform:translate(-15%,-5%)}70%{transform:translate(-5%,-10%)}80%{transform:translate(-15%,-20%)}100%{transform:translate(0,0)}}
+
+    /* star particles */
+    canvas#stars{position:absolute;inset:0;z-index:-1;mix-blend-mode:screen;}
+
+    /* ---------- NAVBAR ---------- */
+    .nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:40;backdrop-filter:saturate(160%) blur(8px);
+      background:linear-gradient(180deg,rgba(30,32,40,.7),rgba(17,18,24,.65));border:1px solid var(--stroke);
+      border-radius:16px;padding:10px 14px;display:flex;gap:10px;align-items:center;box-shadow:0 10px 30px #0008}
+    .nav .logo{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:12px;}
+    .nav .logo img{width:36px;height:36px;filter:drop-shadow(0 6px 12px #000a)}
+    .nav .logo span{font-weight:700;letter-spacing:.3px}
+    .nav .links{display:flex;gap:6px}
+    .chip{padding:8px 12px;border-radius:12px;border:1px solid var(--stroke);background:var(--glass);color:var(--txt);
+      transition:.25s;display:inline-flex;align-items:center;gap:8px}
+    .chip:hover{transform:translateY(-2px);background:#171a21;border-color:#2a2c36}
+
+    /* ---------- HERO CARD ---------- */
+    .shell{display:grid;gap:28px;place-items:center;text-align:center;padding:120px 16px 80px;max-width:1100px;margin:auto}
+    h1{font-size:clamp(40px,7vw,82px);line-height:1.05;font-weight:800;letter-spacing:.4px;
+      background:linear-gradient(92deg,var(--gold-1),var(--gold-2));-webkit-background-clip:text;background-clip:text;color:transparent;
+      text-shadow:0 0 32px rgba(255,215,130,.08);
+    }
+    .tagline{font-size:clamp(14px,2.4vw,20px);color:var(--muted);max-width:800px;margin:0 auto}
+
+    .cta-grid{display:grid;grid-template-columns:repeat(3,minmax(180px,1fr));gap:14px;width:min(840px,92vw)}
+    @media (max-width:780px){.cta-grid{grid-template-columns:1fr}}
+
+    .btn{
+      position:relative;display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 20px;border-radius:16px;border:1px solid var(--stroke);
+      background:linear-gradient(180deg,#11131a,#0d0f14);box-shadow:inset 0 1px 0 rgba(255,255,255,.05), 0 20px 50px #000a;cursor:pointer;
+      font-weight:600;letter-spacing:.2px;transition:.25s;overflow:hidden
+    }
+    .btn i{font-size:1.1rem}
+    .btn span{font-size:1.02rem}
+    .btn:hover{transform:translateY(-3px);border-color:#2b2f3b}
+    .btn:before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:linear-gradient(120deg,transparent,rgba(255,255,255,.18),transparent);
+      -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.4}
+    .btn .shine{position:absolute;inset:0;translate:-120% 0; background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);height:100%;width:60%;filter:blur(6px)}
+    .btn:hover .shine{animation:shine .9s ease}
+    @keyframes shine{to{translate:140% 0}}
+
+    .subactions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+    .subactions a{padding:10px 14px;border-radius:12px;border:1px dashed #2b2b33;background:#0c0e14;color:#a9abb6;transition:.25s}
+    .subactions a:hover{border-style:solid;color:#e7e7ea}
+
+    /* floating badges */
+    .badge{position:absolute;z-index:5;padding:10px 14px;border-radius:999px;background:linear-gradient(180deg,#1a1f2b,#131723);border:1px solid #2b3141;color:#cdd0da;font-size:.9rem;
+      box-shadow:0 10px 40px #000a}
+    .b1{top:14%;left:6%;transform:rotate(-6deg)}
+    .b2{bottom:18%;right:8%;transform:rotate(5deg)}
+
+    /* footer */
+    footer{position:relative;margin:60px 0 20px;color:#84889a}
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <canvas id="stars"></canvas>
+    <div class="grain"></div>
+
+    <!-- NAV -->
+    <div class="nav">
+      <a class="logo" href="#">
+        <img src="logo.png" alt="i4Market logo" />
+        <span>i4Market</span>
+      </a>
+      <div class="links">
+        <a class="chip" href="#services"><i class="fa-solid fa-star"></i><span>Services</span></a>
+        <a class="chip" href="#contact"><i class="fa-solid fa-envelope"></i><span>Contact</span></a>
+      </div>
+    </div>
+
+    <!-- FLOATING BADGES -->
+    <div class="badge b1"><i class="fa-solid fa-bolt"></i> Boost your presence</div>
+    <div class="badge b2"><i class="fa-solid fa-shield"></i> Trusted by creators</div>
+
+    <!-- MAIN SHELL -->
+    <section class="shell">
+      <img src="logo.png" width="86" alt="i4Market" style="filter:drop-shadow(0 10px 24px rgba(0,0,0,.45));opacity:.95" />
+      <h1>One Name, <br/>One Owner.</h1>
+      <p class="tagline">Secure premium handles, transfer them safely to your account, and get expert help with account recovery and appeal workflows. We focus on legitimacy, proof of ownership, and end‑to‑end protection.</p>
+
+      <div class="cta-grid" id="apps">
+        <a class="btn" href="./platform.html?platform=Instagram" data-tilt>
+          <i class="fab fa-instagram"></i><span>Instagram</span><div class="shine"></div>
+        </a>
+        <a class="btn" href="./platform.html?platform=Twitter" data-tilt>
+          <i class="fab fa-twitter"></i><span>Twitter / X</span><div class="shine"></div>
+        </a>
+        <a class="btn" href="./platform.html?platform=Snapchat" data-tilt>
+          <i class="fab fa-snapchat"></i><span>Snapchat</span><div class="shine"></div>
+        </a>
+      </div>
+
+      <div class="subactions">
+        <a href="#services"><i class="fa-solid fa-user-tag"></i> Username Swaps</a>
+        <a href="#services"><i class="fa-solid fa-unlock"></i> Account Unban / Appeals</a>
+        <a href="#services"><i class="fa-solid fa-shield-halved"></i> Escrow & Ownership Proof</a>
+        <a href="#how"><i class="fa-solid fa-route"></i> How It Works</a>
+      </div>
+
+      <footer>© 2025 i4 Enterprise</footer>
+    </section>
+  </div>
+
+  <script>
+    // ----- Stars / particles -----
+    const cvs=document.getElementById('stars'), ctx=cvs.getContext('2d');
+    let W,H,stars=[]; function size(){W=innerWidth;H=innerHeight;cvs.width=W;cvs.height=H}
+    function make(){stars=[...Array(Math.min(140, Math.floor((W*H)/15000)))].map(()=>({x:Math.random()*W,y:Math.random()*H,s:Math.random()*2+0.4,v:.12+Math.random()*.28,a:.2+.7*Math.random()}))}
+    function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#fff';for(const p of stars){ctx.globalAlpha=p.a*(.6+Math.random()*.6);ctx.fillRect(p.x,p.y,p.s,p.s);p.y+=p.v;if(p.y>H)p.y=-2}
+      requestAnimationFrame(draw)}
+    addEventListener('resize',()=>{size();make()}); size(); make(); draw();
+
+    // ----- Fancy tilt on hover -----
+    const clamp=(n,min,max)=>Math.max(min,Math.min(n,max));
+    document.querySelectorAll('[data-tilt]').forEach(el=>{
+      el.addEventListener('mousemove',e=>{
+        const r=el.getBoundingClientRect();
+        const dx=(e.clientX-r.left)/r.width-.5; const dy=(e.clientY-r.top)/r.height-.5;
+        el.style.transform=`perspective(700px) rotateX(${clamp(-dy*8,-6,6)}deg) rotateY(${clamp(dx*8,-6,6)}deg) translateY(-3px)`;
+      });
+      el.addEventListener('mouseleave',()=>{el.style.transform='translateY(-3px)'});
+    });
+  </script>
+
+  <!-- Optional sections you can fill later -->
+  <section id="services" style="padding:84px 20px;max-width:1200px;margin:0 auto">
+    <h2 style="font-size:clamp(28px,5vw,44px);margin-bottom:16px;font-weight:800;letter-spacing:.2px;background:linear-gradient(90deg,#fff,#ffe9b0);-webkit-background-clip:text;color:transparent">Services</h2>
+    <p style="color:#aeb1bb;max-width:860px;margin-bottom:22px">Transparent process, secure transfers, and compliance-first guidance. We never sell hacked accounts or violate platform rules. Every engagement includes identity & ownership checks.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+      <div style="background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:20px">
+        <h3 style="font-size:1.25rem;margin-bottom:6px">Premium Username Swap</h3>
+        <p style="color:#b9bbc5">We securely transfer a desired @handle to your account via timed release, pre‑checks, and rollback plan.</p>
+        <ul style="margin:12px 0 14px;color:#aeb1bb;line-height:1.6">
+          <li>Eligibility & availability audit</li>
+          <li>Timed swap with live coordination</li>
+          <li>Screenshared proof & escrow option</li>
+        </ul>
+        <a class="btn" href="#contact" style="margin-top:6px"><i class="fa-solid fa-user-tag"></i><span>Request a Username</span><div class="shine"></div></a>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:20px">
+        <h3 style="font-size:1.25rem;margin-bottom:6px">Account Unban & Appeal Support</h3>
+        <p style="color:#b9bbc5">Structured appeal packages that align with platform policies to restore accounts when possible.</p>
+        <ul style="margin:12px 0 14px;color:#aeb1bb;line-height:1.6">
+          <li>Case assessment & policy mapping</li>
+          <li>Drafted appeal letters & evidence</li>
+          <li>Escalation guidance & follow‑ups</li>
+        </ul>
+        <a class="btn" href="#contact" style="margin-top:6px"><i class="fa-solid fa-unlock"></i><span>Start Unban Review</span><div class="shine"></div></a>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:20px">
+        <h3 style="font-size:1.25rem;margin-bottom:6px">Handle Marketplace (Curated)</h3>
+        <p style="color:#b9bbc5">Private list of verified, policy‑safe handles ready for transfer to eligible buyers.</p>
+        <ul style="margin:12px 0 14px;color:#aeb1bb;line-height:1.6">
+          <li>Due diligence & ownership proof</li>
+          <li>Secure escrow & transfer window</li>
+          <li>Multi‑platform bundles (IG/X/Snap)</li>
+        </ul>
+        <a class="btn" href="#contact" style="margin-top:6px"><i class="fa-solid fa-handshake"></i><span>Request Inventory</span><div class="shine"></div></a>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:20px">
+        <h3 style="font-size:1.25rem;margin-bottom:6px">Brand Protection Add‑Ons</h3>
+        <p style="color:#b9bbc5">Ongoing monitoring, look‑alike takedowns, and name claim assistance for new platforms.</p>
+        <ul style="margin:12px 0 14px;color:#aeb1bb;line-height:1.6">
+          <li>Impersonation & phishing reports</li>
+          <li>Trademark‑aligned name claims</li>
+          <li>Monthly portfolio checkups</li>
+        </ul>
+        <a class="btn" href="#contact" style="margin-top:6px"><i class="fa-solid fa-shield"></i><span>Protect My Brand</span><div class="shine"></div></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" style="padding:40px 20px 20px;max-width:1200px;margin:0 auto">
+    <h2 style="font-size:clamp(26px,4.6vw,40px);margin-bottom:10px;font-weight:800">How It Works</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
+      <div style="background:#0d1017;border:1px solid var(--stroke);border-radius:16px;padding:16px"><strong>1) Verify & Plan</strong><br/><span style="color:#aeb1bb">KYC & ownership proof, risk assessment, and platform‑safe plan.</span></div>
+      <div style="background:#0d1017;border:1px solid var(--stroke);border-radius:16px;padding:16px"><strong>2) Secure Execution</strong><br/><span style="color:#aeb1bb">Escrow (optional), timed swaps, audit trail, and rollback strategy.</span></div>
+      <div style="background:#0d1017;border:1px solid var(--stroke);border-radius:16px;padding:16px"><strong>3) Post‑Support</strong><br/><span style="color:#aeb1bb">Monitoring, appeal follow‑ups, and portfolio protection.</span></div>
+    </div>
+  </section>
+
+  <section id="faq" style="padding:20px 20px 60px;max-width:1100px;margin:0 auto">
+    <h2 style="font-size:clamp(26px,4.6vw,40px);margin-bottom:10px;font-weight:800">FAQ</h2>
+    <details style="background:#0d1017;border:1px solid var(--stroke);border-radius:16px;padding:14px;margin-bottom:10px"><summary><strong>Is this legal and allowed by platforms?</strong></summary><p style="color:#aeb1bb;margin-top:8px">We only proceed where a transfer path complies with applicable laws and the platform’s rules. We refuse hacked, stolen, or fabricated ownership. Some platforms restrict buying/selling usernames—when a swap isn’t policy‑safe, we won’t do it.</p></details>
+    <details style="background:#0d1017;border:1px solid var(--stroke);border-radius:16px;padding:14px;margin-bottom:10px"><summary><strong>What proof do you require?</strong></summary><p style="color:#aeb1bb;margin-top:8px">Photo ID match (KYC), domain/email verification, prior usage evidence, and/or trademark docs depending on the case.</p></details>
+    <details style="background:#0d1017;border:1px solid var(--stroke);border-radius:16px;padding:14px"><summary><strong>How do payments work?</strong></summary><p style="color:#aeb1bb;margin-top:8px">We can use third‑party escrow or milestone payments. Fees depend on complexity and platform risk.</p></details>
+  </section>
+
+  <section id="compliance" style="padding:0 20px 40px;max-width:1100px;margin:0 auto;color:#aeb1bb;font-size:.95rem">
+    <p style="background:#0d1017;border:1px solid var(--stroke);border-radius:14px;padding:14px"><i class="fa-solid fa-scale-balanced"></i> <strong>Compliance Notice:</strong> We do not facilitate unauthorized access, impersonation, or policy violations. All services require proof of ownership and legitimate intent. Availability of a transfer is not guaranteed and depends on platform rules.</p>
+  </section>
+  <section id="contact" style="padding:40px 20px 120px;max-width:1100px;margin:0 auto">
+    <h2 style="font-size:clamp(26px,4.6vw,40px);margin-bottom:10px;font-weight:800">Contact</h2>
+    <p style="color:#aeb1bb;margin-bottom:12px">Tell us what handle you want, your current @username, platform, and any deadlines.</p>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a class="chip" href="mailto:contact@i4.enterprise?subject=Handle%20Request&body=Desired%20handle:%0APlatform:%0ACurrent%20username:%0AEvidence%20of%20ownership:%0ADeadline:%0A"><i class="fa-solid fa-envelope"></i> Email Request</a>
+      <a class="chip" href="#apps"><i class="fa-solid fa-rocket"></i> Start Now</a>
+    </div>
+  </section>
+</body>
+</html>

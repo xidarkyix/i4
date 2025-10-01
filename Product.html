@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Handle — i4Market</title>
+  <base href="./" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root{
+      --bg:#0b0b0e;
+      --card:#0f1116cc;
+      --glass:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.12);
+      --txt:#e7e7ea;
+      --muted:#a5a7b1;
+      --gold-1:#ffcf66;
+      --gold-2:#caa342;
+      --brand:#6aa1ff;
+      --r:16px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Poppins,Arial,system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt)}
+    a{color:inherit;text-decoration:none}
+
+    /* background */
+    #bg{position:fixed;inset:0;z-index:-2;background:#000}
+    #bg:before,#bg:after{content:"";position:absolute;inset:-20%;background:conic-gradient(from 210deg,rgba(100,150,255,.12),transparent 40%,rgba(255,200,80,.08) 70%,transparent);filter:blur(60px);animation:spin 25s linear infinite}
+    #bg:after{animation-duration:40s;opacity:.6;mix-blend-mode:screen}
+    @keyframes spin{to{transform:rotate(1turn)}}
+    canvas#stars{position:fixed;inset:0;z-index:-3;mix-blend-mode:screen}
+
+    /* nav to match index/platform */
+    .nav{position:sticky;top:12px;margin:12px auto;left:0;right:0;max-width:980px;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:10px;
+      background:linear-gradient(180deg,rgba(30,32,40,.7),rgba(17,18,24,.65));border:1px solid var(--stroke);backdrop-filter:saturate(160%) blur(8px);
+      border-radius:16px;padding:10px 12px}
+    .logo{display:flex;gap:10px;align-items:center}
+    .logo img{width:36px;height:36px;filter:drop-shadow(0 6px 12px #000a)}
+    .logo b{font-weight:800}
+    .chips{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{padding:8px 12px;border-radius:12px;border:1px solid var(--stroke);background:var(--glass);transition:.25s;display:inline-flex;align-items:center;gap:8px}
+    .chip:hover{transform:translateY(-2px);background:#171a21;border-color:#2a2c36}
+
+    .wrap{max-width:1200px;margin:0 auto;padding:16px}
+    .title{font-size:clamp(26px,4.5vw,48px);font-weight:800;margin:6px 0 12px}
+
+    .layout{display:grid;grid-template-columns:1.2fr .9fr;gap:18px}
+    @media (max-width:980px){.layout{grid-template-columns:1fr}}
+
+    .viewer{background:var(--card);border:1px solid var(--stroke);border-radius:var(--r);padding:16px;display:grid;align-content:flex-start;gap:14px;position:relative;overflow:hidden}
+    .frame{aspect-ratio:16/10;border-radius:14px;background:radial-gradient(60% 80% at 50% 40%,#171b25,#0d1017);display:grid;place-items:center;border:1px solid var(--stroke)}
+    .frame .platform-icon{font-size:64px;margin-bottom:14px}
+    .frame .handle{font-size:28px;font-weight:800}
+    .ctaRow{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:14px;border:1px solid var(--stroke);background:#161b26;color:var(--txt);font-weight:700;cursor:pointer}
+    .btn:hover{background:#202836}
+
+    .panel{background:linear-gradient(180deg,#11141b,#0c0f15);border:1px solid var(--stroke);border-radius:var(--r);padding:16px;box-shadow:0 20px 60px #0006}
+    .subtle{color:var(--muted)}
+    .kv{display:grid;grid-template-columns:120px 1fr;gap:10px;margin:8px 0}
+    .badge{font-size:.78rem;color:#cfd5eb;background:#0c1220;border:1px solid #2a3550;padding:4px 8px;border-radius:999px}
+
+    .priceBar{display:flex;align-items:center;gap:12px;margin-top:12px}
+    .price{font-size:1.3rem;font-weight:800;color:var(--brand)}
+    .buy{flex:1}
+
+    .notice{background:#101521;border:1px dashed #2a3550;padding:10px;border-radius:12px;color:#b9bfd4;margin-top:14px}
+    .back{display:inline-block;margin-top:18px;color:var(--muted)}
+    .back:hover{color:#dbe2ff}
+  </style>
+</head>
+<body>
+  <div id="bg"></div>
+  <canvas id="stars"></canvas>
+
+  <div class="nav">
+    <a class="logo" href="./index.html"><img src="logo.png" alt="i4Market logo"><b>i4Market</b></a>
+    <div class="chips">
+      <a class="chip" href="./index.html"><i class="fa-solid fa-house"></i> Home</a>
+      <a class="chip" href="./platform.html?platform=Instagram"><i class="fab fa-instagram"></i> Instagram</a>
+      <a class="chip" href="./platform.html?platform=Twitter"><i class="fab fa-twitter"></i> Twitter / X</a>
+      <a class="chip" href="./platform.html?platform=Snapchat"><i class="fab fa-snapchat"></i> Snapchat</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <h1 id="h" class="title">@handle</h1>
+    <div class="layout">
+      <!-- LEFT: Viewer -->
+      <div class="viewer">
+        <div class="frame">
+          <div style="text-align:center">
+            <div id="picon" class="platform-icon"><i class="fab fa-instagram"></i></div>
+            <div id="h2" class="handle">@handle</div>
+          </div>
+        </div>
+        <div class="ctaRow">
+          <a id="viewBtn" class="btn" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> View profile</a>
+          <a id="copyBtn" class="btn"><i class="fa-solid fa-link"></i> Copy link</a>
+        </div>
+      </div>
+
+      <!-- RIGHT: Details -->
+      <div class="panel">
+        <h3>Account Description</h3>
+        <p id="desc" class="subtle">Account with primary email. The account is not linked to a phone number.</p>
+
+        <hr style="border:none;border-top:1px solid var(--stroke);margin:14px 0">
+        <div class="kv"><div class="subtle">The platform</div><div id="platLine"><i class="fab fa-instagram"></i> Instagram</div></div>
+        <div class="kv"><div class="subtle">Security</div><div>
+          <span class="badge"><i class="fa-solid fa-shield"></i> Ownership proof required</span>
+          <span class="badge"><i class="fa-solid fa-scale-balanced"></i> Platform-safe only</span>
+        </div></div>
+
+        <div class="priceBar">
+          <div id="price" class="price">$0.00</div>
+          <a id="buyBtn" class="btn buy"><i class="fa-solid fa-bolt"></i> Quick purchase</a>
+        </div>
+
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+          <a id="whatsBtn" class="btn" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a id="xBtn" class="btn" title="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a id="tgBtn" class="btn" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+          <a id="shareBtn" class="btn" title="Share"><i class="fa-solid fa-share-nodes"></i></a>
+        </div>
+
+        <div class="notice"><i class="fa-solid fa-circle-info"></i> We transfer only with proof of ownership and platform-safe methods. Availability is not guaranteed until confirmed.</div>
+
+        <a class="back" href="./platform.html">← Back to listings</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---- stars ----
+    const cvs=document.getElementById('stars'), ctx=cvs.getContext('2d');
+    let W,H,stars=[];
+    function size(){W=innerWidth;H=innerHeight;cvs.width=W;cvs.height=H}
+    function make(){stars=[...Array(Math.min(140, Math.floor((W*H)/15000)))].map(()=>({x:Math.random()*W,y:Math.random()*H,s:Math.random()*2+0.4,v:.12+Math.random()*.28,a:.2+.7*Math.random()}))}
+    function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#fff';for(const p of stars){ctx.globalAlpha=p.a*(.6+Math.random()*.6);ctx.fillRect(p.x,p.y,p.s,p.s);p.y+=p.v;if(p.y>H)p.y=-2} requestAnimationFrame(draw)}
+    addEventListener('resize',()=>{size();make()}); size(); make(); draw();
+
+    // ---- helpers ----
+    function profileURL(p, handle){
+      const h=(handle||'').replace(/^@/,'');
+      switch(p){
+        case 'Instagram': return `https://instagram.com/${h}`;
+        case 'Twitter':
+        case 'X':
+        case 'Twitter / X': return `https://twitter.com/${h}`;
+        case 'Snapchat': return `https://snapchat.com/add/${h}`;
+        default: return '';
+      }
+    }
+    const ICONS={Instagram:'<i class="fab fa-instagram"></i>',Twitter:'<i class="fab fa-twitter"></i>','Twitter / X':'<i class="fab fa-twitter"></i>',Snapchat:'<i class="fab fa-snapchat"></i>'};
+
+    // ---- params ----
+    const qs=new URLSearchParams(location.search);
+    const handle=qs.get('h')||'@handle';
+    const plat=qs.get('p')||'Instagram';
+    const price=parseFloat(qs.get('pr')||'0');
+    const desc=qs.get('d')||'Account with primary email. The account is not linked to a phone number.';
+    const profileParam=qs.get('u');
+    const profile = profileParam || profileURL(plat, handle);
+
+    // ---- fill UI ----
+    document.getElementById('h').textContent=handle;
+    document.getElementById('h2').textContent=handle;
+    document.getElementById('picon').innerHTML=ICONS[plat]||'';
+    document.getElementById('platLine').innerHTML=(ICONS[plat]||'')+` ${plat}`;
+    document.getElementById('desc').textContent=desc;
+    document.getElementById('price').textContent=`$${price.toLocaleString()}.00`;
+
+    // ---- actions ----
+    const viewBtn=document.getElementById('viewBtn');
+    if(profile){ viewBtn.href=profile; viewBtn.style.opacity=1; } else { viewBtn.href='javascript:void(0)'; viewBtn.style.opacity=.7; }
+
+    const url=new URL(location.href);
+    const copyBtn=document.getElementById('copyBtn');
+    copyBtn.onclick=async()=>{ try{ await navigator.clipboard.writeText(url.toString()); copyBtn.innerHTML='<i class="fa-solid fa-check"></i> Copied'; setTimeout(()=>copyBtn.innerHTML='<i class="fa-solid fa-link"></i> Copy link',1200);}catch(e){alert('Copy failed')}}
+
+    const shareText=`Check this handle ${handle} on ${plat} — ${url.toString()}`;
+    document.getElementById('whatsBtn').href=`https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    document.getElementById('xBtn').href=`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+    document.getElementById('tgBtn').href=`https://t.me/share/url?url=${encodeURIComponent(url.toString())}&text=${encodeURIComponent(shareText)}`;
+    document.getElementById('shareBtn').onclick=async()=>{
+      if(navigator.share){ await navigator.share({title:handle,text:shareText,url:url.toString()}); }
+      else{ window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`,'_blank'); }
+    };
+
+    document.getElementById('buyBtn').onclick=()=>{ alert(`Proceed to purchase ${handle} for $${price}. (Integrate checkout here)`); };
+  </script>
+</body>
+</html>

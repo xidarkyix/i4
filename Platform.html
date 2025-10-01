@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Platform — i4Market</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--bg:#0b0b0e;--card:#0f1116cc;--glass:rgba(255,255,255,.06);--stroke:rgba(255,255,255,.12);--txt:#e7e7ea;--muted:#a5a7b1;--gold-1:#ffcf66;--gold-2:#caa342;--brand:#6aa1ff;--r:16px}
+*{box-sizing:border-box;margin:0;padding:0} body{font-family:Poppins,Arial,sans-serif;background:var(--bg);color:var(--txt)}
+a{color:inherit;text-decoration:none}
+#bg{position:fixed;inset:0;z-index:-2;background:#000}
+#bg:before,#bg:after{content:"";position:absolute;inset:-20%;background:conic-gradient(from 210deg,rgba(100,150,255,.12),transparent 40%,rgba(255,200,80,.08) 70%,transparent);filter:blur(60px);animation:spin 25s linear infinite}
+#bg:after{animation-duration:40s;opacity:.6;mix-blend-mode:screen}@keyframes spin{to{transform:rotate(1turn)}}
+canvas#stars{position:fixed;inset:0;z-index:-3;mix-blend-mode:screen}
+.nav{position:sticky;top:12px;margin:12px auto;max-width:980px;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(180deg,rgba(30,32,40,.7),rgba(17,18,24,.65));border:1px solid var(--stroke);backdrop-filter:saturate(160%) blur(8px);border-radius:16px;padding:10px 12px}
+.logo{display:flex;gap:10px;align-items:center}.logo img{width:36px;height:36px;filter:drop-shadow(0 6px 12px #000a)} .logo b{font-weight:800}
+.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:8px 12px;border-radius:12px;border:1px solid var(--stroke);background:var(--glass);transition:.25s;display:inline-flex;align-items:center;gap:8px}.chip:hover{transform:translateY(-2px);background:#171a21;border-color:#2a2c36}
+.wrap{max-width:1200px;margin:0 auto;padding:16px}
+main{display:grid;grid-template-columns:300px 1fr;gap:18px} @media (max-width:960px){main{grid-template-columns:1fr}}
+.sidebar{background:linear-gradient(180deg,#11141b,#0c0f15);border:1px solid var(--stroke);border-radius:var(--r);padding:16px;position:sticky;top:84px;height:max-content;box-shadow:0 20px 60px #0006}
+.sidebar h3{font-size:1.05rem;margin-bottom:10px}.field{margin:10px 0 12px} label{display:block;font-size:.9rem;color:var(--muted);margin-bottom:6px}
+input[type=text],input[type=number],select{width:100%;background:#0c1016;border:1px solid var(--stroke);color:var(--txt);border-radius:12px;padding:11px;font-size:.95rem}
+.radios label,.checks label{display:flex;align-items:center;gap:8px;margin:6px 0;color:#c7cfdd}
+.small{font-size:.86rem;color:var(--muted)} .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 14px;border-radius:14px;border:1px solid var(--stroke);background:#1a2230;color:var(--txt);font-weight:700;cursor:pointer;gap:8px}
+.btn:hover{background:#223044}
+.title{margin:8px 0 2px;font-size:2rem;font-weight:800;background:linear-gradient(92deg,var(--gold-1),var(--gold-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{color:var(--muted);margin-bottom:12px} .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px;justify-content:space-between;height:160px;transition:transform .25s,box-shadow .25s,border-color .25s}
+.card:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 25px rgba(100,150,255,.15);border-color:#2a3550}
+.left{display:flex;align-items:center;gap:10px;font-size:1.1rem}.handle{font-weight:800;font-size:1.2rem}
+.badge{font-size:.78rem;color:#cfd5eb;background:#0c1220;border:1px solid #2a3550;padding:4px 8px;border-radius:999px;margin-top:4px}
+.price{align-self:flex-end;font-size:1.15rem;font-weight:800;color:var(--brand)}
+.back{display:inline-block;margin-top:16px;color:var(--muted)} .back:hover{color:#dbe2ff}
+</style>
+</head>
+<body>
+<div id="bg"></div><canvas id="stars"></canvas>
+
+<div class="nav">
+  <a class="logo" href="./index.html"><img src="logo.png" alt="i4Market logo"><b>i4Market</b></a>
+  <div class="chips">
+    <a class="chip" href="./index.html"><i class="fa-solid fa-house"></i> Home</a>
+    <a class="chip" href="./platform.html?platform=Instagram"><i class="fab fa-instagram"></i> Instagram</a>
+    <a class="chip" href="./platform.html?platform=Twitter"><i class="fab fa-twitter"></i> Twitter / X</a>
+    <a class="chip" href="./platform.html?platform=Snapchat"><i class="fab fa-snapchat"></i> Snapchat</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <main>
+    <aside class="sidebar">
+      <h3>Custom search</h3>
+      <div class="field"><label for="q">Search term</label><input id="q" type="text" placeholder="Enter a username or keyword"></div>
+      <div class="field"><label for="platform">Platform</label>
+        <select id="platform"><option value="All">All platforms</option><option>Instagram</option><option>Twitter</option><option>Snapchat</option></select>
+        <div class="small">Auto-set from the page; you can switch.</div>
+      </div>
+      <div class="field"><label for="category">Category</label>
+        <select id="category"><option value="All">All types</option><option>4 Letters</option><option>3 Letters</option><option>OG Words</option><option>Other</option></select>
+      </div>
+      <div class="field"><label>Price range</label>
+        <div class="radios">
+          <label><input type="radio" name="pc" value="gt100"> More than ($100)</label>
+          <label><input type="radio" name="pc" value="lt100"> Less than ($100)</label>
+          <label><input type="radio" name="pc" value="" checked> Any price</label>
+        </div>
+      </div>
+      <div class="field"><label for="sort">Sort by price</label>
+        <select id="sort"><option value="desc">Highest first</option><option value="asc">Lowest first</option><option value="none" selected>None</option></select>
+      </div>
+      <div class="field"><label>Advanced filters</label>
+        <div class="checks">
+          <label><input id="only4" type="checkbox"> 4 letters</label>
+          <label><input id="lettersOnly" type="checkbox"> Letters only</label>
+          <label><input id="dupesOnly" type="checkbox"> Duplicates only</label>
+        </div>
+      </div>
+      <div class="field"><label for="min">Min price ($)</label><input id="min" type="number" placeholder="Enter min price"></div>
+      <div class="field"><label for="max">Max price ($)</label><input id="max" type="number" placeholder="Enter max price"></div>
+      <button class="btn" id="apply"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+    </aside>
+
+    <section>
+      <h1 id="title" class="title"></h1>
+      <p class="subtitle">Curated, policy-safe handles. These are sample listings to illustrate how items appear.</p>
+      <div class="toolbar">
+        <span class="badge"><i class="fa-solid fa-shield"></i> Ownership proof required</span>
+        <span class="badge"><i class="fa-solid fa-scale-balanced"></i> Platform-safe only</span>
+      </div>
+
+      <div id="grid" class="grid"></div>
+      <div style="display:flex;justify-content:center;margin-top:16px">
+        <button class="btn" id="more" style="display:none"><i class="fa-solid fa-ellipsis"></i> Load more</button>
+      </div>
+
+      <a class="back" href="./index.html">← Back to main page</a>
+    </section>
+  </main>
+</div>
+
+<script type="module">
+import { PRODUCTS as DATA } from './products.js';
+
+/* stars */
+const cvs=document.getElementById('stars'),ctx=cvs.getContext('2d');
+let W,H,S=[];function sz(){W=innerWidth;H=innerHeight;cvs.width=W;cvs.height=H;S=[...Array(130)].map(()=>({x:Math.random()*W,y:Math.random()*H,s:Math.random()*2+0.4,v:.1+Math.random()*.3,a:.2+.7*Math.random()}))}function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#fff';for(const p of S){ctx.globalAlpha=p.a*(.6+Math.random()*.6);ctx.fillRect(p.x,p.y,p.s,p.s);p.y+=p.v;if(p.y>H)p.y=-2}requestAnimationFrame(draw)}addEventListener('resize',sz);sz();draw();
+
+/* helpers + setup */
+const ICONS={Instagram:'<i class="fab fa-instagram"></i>',Twitter:'<i class="fab fa-twitter"></i>','Twitter / X':'<i class="fab fa-twitter"></i>',Snapchat:'<i class="fab fa-snapchat"></i>'};
+const qs=new URLSearchParams(location.search),initial=qs.get('platform')||'Instagram',$=id=>document.getElementById(id),G=$('grid'),More=$('more');
+$('platform').value=initial;$('title').textContent=initial+' — Featured';
+
+const lettersOnly=s=>/^[a-zA-Z_@]+$/.test(s),dupes=s=>/(.)\1{1,}/.test(s.replace(/^@/,''));
+const profileURL=(p,h)=>{h=h.replace(/^@/,'');return p==='Instagram'?`https://instagram.com/${h}`:p==='Twitter'||p==='Twitter / X'||p==='X'?`https://twitter.com/${h}`:p==='Snapchat'?`https://snapchat.com/add/${h}`:''};
+
+const PAGE=9; let page=1, filtered=[];
+
+/* card & paging */
+const card=(it,p)=>`<a class="card" href="product.html?h=${encodeURIComponent(it.user)}&p=${encodeURIComponent(p)}&pr=${it.price}&d=${encodeURIComponent(it.category)}&u=${encodeURIComponent(profileURL(p,it.user))}">
+  <div>
+    <div class="left">${ICONS[p]||''}<span class="handle">${it.user}</span></div>
+    <div class="badge">${it.category||'Other'}</div>
+  </div>
+  <div class="price">$${Math.round(it.price).toLocaleString()}.00</div>
+</a>`;
+
+function renderPage(p){ const slice=filtered.slice(0,page*PAGE); G.innerHTML=slice.map(it=>card(it,it._p||p)).join(''); More.style.display=filtered.length>slice.length?'inline-flex':'none'; }
+
+function apply(){
+  page=1;
+  const q=$('q').value.trim().toLowerCase(),plat=$('platform').value,cat=$('category').value,sort=$('sort').value,
+        min=parseFloat($('min').value||''),max=parseFloat($('max').value||''),pc=(document.querySelector('input[name="pc"]:checked')||{}).value,
+        only4=$('only4').checked,letters=$('lettersOnly').checked,d=$('dupesOnly').checked;
+
+  filtered=(plat==='All'?Object.keys(DATA):[plat])
+    .flatMap(p=>DATA[p].map(v=>({...v,_p:p})))
+    .filter(it => (!q||it.user.toLowerCase().includes(q)) && (cat==='All'||it.category===cat)
+      && (isNaN(min)||it.price>=min) && (isNaN(max)||it.price<=max)
+      && (!pc||(pc==='gt100'?it.price>100:it.price<100))
+      && (!only4||it.user.replace(/^@/,'').length===4)
+      && (!letters||lettersOnly(it.user)) && (!d||dupes(it.user)));
+
+  if(sort==='asc')  filtered.sort((a,b)=>a.price-b.price);
+  if(sort==='desc') filtered.sort((a,b)=>b.price-a.price);
+
+  const show=plat==='All'?initial:plat;$('title').textContent=show+' — Featured';
+  renderPage(show);
+}
+
+/* events */
+$('apply').addEventListener('click',apply);
+$('q').addEventListener('keydown',e=>{ if(e.key==='Enter') apply(); });
+More.addEventListener('click',()=>{ page++; renderPage($('platform').value==='All'?initial:$('platform').value); });
+
+apply(); // initial render
+</script>
+</body>
+</html>
